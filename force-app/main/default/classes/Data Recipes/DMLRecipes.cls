@@ -10,7 +10,7 @@ public with sharing class DMLRecipes {
      * highlight how negative tests operate.
      */
     public class CustomDMLException extends Exception {
-    }
+    
 
     /**
      * @description Demonstrates how to use the `insert` keyword to persist a
