@@ -1,0 +1,46 @@
+name: Salesforce Code Analyzer
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  analyze:
+    name: Run Salesforce Code Analyzer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install sfdx-cli --global
+
+      - name: Install Salesforce Scanner Plugin
+        run: |
+          sfdx plugins:install @salesforce/sfdx-scanner
+
+      - name: Run Scanner with All Rule Categories and Severity Threshold
+        run: |
+          sfdx scanner:run \
+            --target "force-app" \
+            --category "Apex,Visualforce,Lightning,Javascript,Html,Xml" \
+            --format "sarif" \
+            --outfile "scanner-results.sarif" \
+            --severity-threshold 3
+
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: scanner-results.sarif
+
+      - name: Fail if Violations Exist (Quality Gate)
+        run: |
+          violations=$(jq '.runs[].results | length' scanner-results.sarif)
+          echo "Found $violations violations"
+          if [ "$violations" -gt 0 ]; then
+            echo "Code violations found at or above severity threshold 3"
+            exit 1
+          else
+            echo "No high-severity code violations found"
+          fi
