@@ -16,6 +16,10 @@ jobs:
         run: |
           npm install sfdx-cli --global
 
+      - name: Uninstall Salesforce Scanner Plugin
+        run: |
+          sfdx plugins:uninstall @salesforce/sfdx-scanner || true
+      
       - name: Install Salesforce Scanner Plugin
         run: |
           sfdx plugins:install @salesforce/sfdx-scanner@latest    
