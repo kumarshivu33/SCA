@@ -19,7 +19,7 @@ jobs:
          node-version: "20.x"
 
       - name: install ESLint
-        run: npm install eslint@9 --global
+        run: npm install eslint@9.x --global
       
       - name: Install Salesforce CLI
         run: |
