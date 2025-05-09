@@ -20,6 +20,11 @@ jobs:
         run: |
           sfdx plugins:uninstall @salesforce/sfdx-scanner || true
       
+      - name: Check node.js.version
+        uses: action/setup-node@v3
+        with:
+         node-version: "20.x"
+      
       - name: Install Salesforce Scanner Plugin
         run: |
           sfdx plugins:install @salesforce/sfdx-scanner@latest    
