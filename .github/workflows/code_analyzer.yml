@@ -12,6 +12,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      
+      - name: Check node.js.version
+        uses: action/setup-node@v3
+        with:
+         node-version: "20"
+         
       - name: Install Salesforce CLI
         run: |
           npm install sfdx-cli --global
@@ -19,11 +25,6 @@ jobs:
       - name: Uninstall Salesforce Scanner Plugin
         run: |
           sfdx plugins:uninstall @salesforce/sfdx-scanner || true
-      
-      - name: Check node.js.version
-        uses: action/setup-node@v3
-        with:
-         node-version: "20"
       
       - name: Install Salesforce Scanner Plugin
         run: |
