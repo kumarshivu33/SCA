@@ -18,8 +18,8 @@ jobs:
 
       - name: Install Salesforce Scanner Plugin
         run: |
-          sfdx plugins:install @salesforce/sfdx-scanner
-
+          sfdx plugins:install @salesforce/sfdx-scanner@latest    
+ 
       - name: Run Scanner with All Rule Categories and Severity Threshold
         run: |
           sfdx scanner:run \
